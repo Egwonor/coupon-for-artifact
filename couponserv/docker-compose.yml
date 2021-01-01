@@ -1,0 +1,36 @@
+version: '3'
+services:
+   coup-service:
+      container_name: coups-app
+      image: ovoh1/coupservice
+      restart: on-failure
+      ports:
+          - "9191:9091"
+      depends_on:
+          - docker-mysql
+   prod-service:
+      container_name: prod3-app
+      image: ovoh1/prodservice
+      restart: on-failure
+      ports:
+           - "9292:9595"
+      depends_on:
+          - docker-mysql
+          - coup-service
+   docker-mysql:
+      container_name: docker-mysql
+      image: mysql
+      restart: always
+      environment:
+          MYSQL_DATABASE: mydb
+          MYSQL_ROOT_PASSWORD: admin
+          MYSQL_ROOT_HOST: '%'
+      volumes:
+          - ./sql:/docker-entrypoint-initdb.d
+      ports: 
+          - "7070:3306"
+      healthcheck:
+          test: "/usr/bin/mysql --user=root --password=admin --execute \"SHOW DATABASES \""
+          interval: 4s
+          timeout: 20s
+          retries: 5
