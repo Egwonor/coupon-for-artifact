@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: prod-app
+    labels:
+        app: prod-app
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: prod-app
+    template:
+        metadata:
+            name: prod-app
+            labels:
+                app: prod-app
+        spec:
+            containers:
+                - name: prod-app
+                  image: ovoh1/prodservice
