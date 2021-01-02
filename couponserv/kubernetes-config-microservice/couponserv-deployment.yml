@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: coups-app
+    labels:
+        app: coups-app
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: coups-app
+    template:
+        metadata:
+            name: coups-app
+            labels:
+                app: coups-app
+        spec:
+            containers:
+                - name: coups-app
+                  image: ovoh1/coupservice
